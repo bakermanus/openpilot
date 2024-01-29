@@ -241,6 +241,7 @@ std::unordered_map<std::string, uint32_t> keys = {
     {"Compass", PERSISTENT},
     {"ConditionalExperimental", PERSISTENT},
     {"CurrentRandomEvent", PERSISTENT},
+    {"CurveSensitivity", PERSISTENT},
     {"CustomColors", PERSISTENT},
     {"CustomIcons", PERSISTENT},
     {"CustomPersonalities", PERSISTENT},
@@ -359,6 +360,7 @@ std::unordered_map<std::string, uint32_t> keys = {
     {"StoppingDistance", PERSISTENT},
     {"TetheringEnabled", PERSISTENT},
     {"TSS2Tune", PERSISTENT},
+    {"TurnAggressiveness", PERSISTENT},
     {"TurnDesires", PERSISTENT},
     {"UnlimitedLength", PERSISTENT},
     {"Updated", PERSISTENT},
@@ -366,6 +368,7 @@ std::unordered_map<std::string, uint32_t> keys = {
     {"UpdateTime", PERSISTENT},
     {"UseSI", PERSISTENT},
     {"UseVienna", PERSISTENT},
+    {"VisionTurnControl", PERSISTENT},
     {"WheelIcon", PERSISTENT},
 };
 
