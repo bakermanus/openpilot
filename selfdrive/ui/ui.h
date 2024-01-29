@@ -15,6 +15,7 @@
 #include "common/mat.h"
 #include "common/params.h"
 #include "common/timing.h"
+#include "selfdrive/ui/qt/network/wifi_manager.h"
 #include "system/hardware/hw.h"
 
 const int UI_BORDER_SIZE = 30;
@@ -200,6 +201,7 @@ typedef struct UIScene {
   bool reverse_cruise_ui;
   bool road_name_ui;
   bool show_driver_camera;
+  bool tethering_enabled;
   bool turn_signal_left;
   bool turn_signal_right;
   bool unlimited_road_ui_length;
@@ -266,6 +268,8 @@ private:
   QTimer *timer;
   bool started_prev = false;
   PrimeType prime_type = PrimeType::UNKNOWN;
+
+  WifiManager *wifi = nullptr;
 };
 
 UIState *uiState();
