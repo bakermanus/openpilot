@@ -198,6 +198,7 @@ typedef struct UIScene {
   bool personalities_via_screen;
   bool quality_of_life_controls;
   bool quality_of_life_visuals;
+  bool random_events;
   bool reverse_cruise;
   bool reverse_cruise_ui;
   bool road_name_ui;
@@ -228,6 +229,7 @@ typedef struct UIScene {
   int conditional_speed;
   int conditional_speed_lead;
   int conditional_status;
+  int current_random_event;
   int custom_colors;
   int custom_icons;
   int custom_signals;
