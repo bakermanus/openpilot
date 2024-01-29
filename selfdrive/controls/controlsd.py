@@ -82,6 +82,8 @@ class Controls:
 
     self.frogpilot_variables = SimpleNamespace()
 
+    self.stopped_for_light_previously = False
+
     ignore = self.sensor_packets + ['testJoystick']
     if SIMULATION:
       ignore += ['driverCameraState', 'managerState']
@@ -440,6 +442,15 @@ class Controls:
 
       if self.sm['modelV2'].frameDropPerc > 20:
         self.events.add(EventName.modeldLagging)
+
+    # Green light alert
+    if self.green_light_alert and self.enabled:
+      stopped_for_light = self.sm['frogpilotPlan'].redLight and CS.standstill
+      green_light = not stopped_for_light and self.stopped_for_light_previously
+      self.stopped_for_light_previously = stopped_for_light
+
+      if green_light and not CS.gasPressed:
+        self.events.add(EventName.greenLight)
 
   def data_sample(self):
     """Receive data from sockets and update carState"""
@@ -949,6 +960,8 @@ class Controls:
     self.goat_scream = self.params.get_bool("GoatScream") and frog_sounds
 
     self.frogpilot_variables.experimental_mode_via_lkas = self.params.get_bool("ExperimentalModeViaLKAS") and self.params.get_bool("ExperimentalModeActivation")
+
+    self.green_light_alert = self.params.get_bool("GreenLightAlert")
 
     self.frogpilot_variables.long_pitch = self.params.get_bool("LongPitch")
 
