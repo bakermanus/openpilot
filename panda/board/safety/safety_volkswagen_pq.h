@@ -15,6 +15,12 @@ const SteeringLimits VOLKSWAGEN_PQ_STEERING_LIMITS = {
 // longitudinal limits
 // acceleration in m/s2 * 1000 to avoid floating point math
 const LongitudinalLimits VOLKSWAGEN_PQ_LONG_LIMITS = {
+  .max_accel = 2000,
+  .min_accel = -3500,
+  .inactive_accel = 3010,  // VW sends one increment above the max range when inactive
+};
+
+const LongitudinalLimits VOLKSWAGEN_PQ_LONG_LIMITS_SPORT = {
   .max_accel = 4000,
   .min_accel = -3500,
   .inactive_accel = 3010,  // VW sends one increment above the max range when inactive
@@ -170,6 +176,8 @@ static void volkswagen_pq_rx_hook(const CANPacket_t *to_push) {
 }
 
 static bool volkswagen_pq_tx_hook(const CANPacket_t *to_send) {
+  sport_mode = alternative_experience & ALT_EXP_RAISE_LONGITUDINAL_LIMITS_TO_ISO_MAX;
+
   int addr = GET_ADDR(to_send);
   bool tx = true;
 
@@ -198,8 +206,14 @@ static bool volkswagen_pq_tx_hook(const CANPacket_t *to_send) {
     // Signal: ACC_System.ACS_Sollbeschl (acceleration in m/s2, scale 0.005, offset -7.22)
     int desired_accel = ((((GET_BYTE(to_send, 4) & 0x7U) << 8) | GET_BYTE(to_send, 3)) * 5U) - 7220U;
 
-    if (longitudinal_accel_checks(desired_accel, VOLKSWAGEN_PQ_LONG_LIMITS)) {
-      tx = false;
+    if (sport_mode) {
+      if (longitudinal_accel_checks(desired_accel, VOLKSWAGEN_PQ_LONG_LIMITS_SPORT)) {
+        tx = false;
+      }
+    } else {
+      if (longitudinal_accel_checks(desired_accel, VOLKSWAGEN_PQ_LONG_LIMITS)) {
+        tx = false;
+      }
     }
   }
 

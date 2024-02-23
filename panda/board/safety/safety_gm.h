@@ -10,6 +10,13 @@ const SteeringLimits GM_STEERING_LIMITS = {
 };
 
 const LongitudinalLimits GM_ASCM_LONG_LIMITS = {
+  .max_gas = 3072,
+  .min_gas = 1404,
+  .inactive_gas = 1404,
+  .max_brake = 400,
+};
+
+const LongitudinalLimits GM_ASCM_LONG_LIMITS_SPORT = {
   .max_gas = 7168,
   .min_gas = 5500,
   .inactive_gas = 5500,
@@ -17,6 +24,13 @@ const LongitudinalLimits GM_ASCM_LONG_LIMITS = {
 };
 
 const LongitudinalLimits GM_CAM_LONG_LIMITS = {
+  .max_gas = 3400,
+  .min_gas = 1514,
+  .inactive_gas = 1554,
+  .max_brake = 400,
+};
+
+const LongitudinalLimits GM_CAM_LONG_LIMITS_SPORT = {
   .max_gas = 8650,
   .min_gas = 5610,
   .inactive_gas = 5650,
@@ -89,14 +103,14 @@ bool gm_force_ascm = false;
 
 static void handle_gm_wheel_buttons(const CANPacket_t *to_push) {
   int button = (GET_BYTE(to_push, 5) & 0x70U) >> 4;
-  
+
   // enter controls on falling edge of set or rising edge of resume (avoids fault)
   bool set = (button != GM_BTN_SET) && (cruise_button_prev == GM_BTN_SET);
   bool res = (button == GM_BTN_RESUME) && (cruise_button_prev != GM_BTN_RESUME);
   if (set || res) {
     controls_allowed = true;
   }
-  
+
   // exit controls on cancel press
   if (button == GM_BTN_CANCEL) {
     controls_allowed = false;
@@ -280,6 +294,8 @@ static int gm_fwd_hook(int bus_num, int addr) {
 }
 
 static safety_config gm_init(uint16_t param) {
+  sport_mode = alternative_experience & ALT_EXP_RAISE_LONGITUDINAL_LIMITS_TO_ISO_MAX;
+
   if GET_FLAG(param, GM_PARAM_HW_CAM) {
     gm_hw = GM_CAM;
   } else if GET_FLAG(param, GM_PARAM_HW_SDGM) {
@@ -291,9 +307,17 @@ static safety_config gm_init(uint16_t param) {
   gm_force_ascm = GET_FLAG(param, GM_PARAM_HW_ASCM_LONG);
 
   if (gm_hw == GM_ASCM || gm_force_ascm) {
-    gm_long_limits = &GM_ASCM_LONG_LIMITS;
+    if (sport_mode) {
+      gm_long_limits = &GM_ASCM_LONG_LIMITS_SPORT;
+    } else {
+      gm_long_limits = &GM_ASCM_LONG_LIMITS;
+    }
   } else if ((gm_hw == GM_CAM) || (gm_hw == GM_SDGM)) {
-    gm_long_limits = &GM_CAM_LONG_LIMITS;
+    if (sport_mode) {
+      gm_long_limits = &GM_CAM_LONG_LIMITS_SPORT;
+    } else {
+      gm_long_limits = &GM_CAM_LONG_LIMITS;
+    }
   } else {
   }
 
