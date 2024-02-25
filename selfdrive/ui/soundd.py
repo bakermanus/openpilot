@@ -186,11 +186,14 @@ class Soundd:
     self.alert_volume_control = self.params.get_bool("AlertVolumeControl")
 
     self.volume_map = {
-      AudibleAlert.disengage: self.params.get_int("DisengageVolume"),
       AudibleAlert.engage: self.params.get_int("EngageVolume"),
+      AudibleAlert.disengage: self.params.get_int("DisengageVolume"),
+      AudibleAlert.refuse: self.params.get_int("RefuseVolume"),
+
       AudibleAlert.prompt: self.params.get_int("PromptVolume"),
-      AudibleAlert.promptRepeat: self.params.get_int("PromptDistractedVolume"),
-      AudibleAlert.promptDistracted: self.params.get_int("RefuseVolume"),
+      AudibleAlert.promptRepeat: self.params.get_int("PromptVolume"),
+      AudibleAlert.promptDistracted: self.params.get_int("PromptDistractedVolume"),
+
       AudibleAlert.warningSoft: self.params.get_int("WarningSoftVolume"),
       AudibleAlert.warningImmediate: self.params.get_int("WarningImmediateVolume")
     }
