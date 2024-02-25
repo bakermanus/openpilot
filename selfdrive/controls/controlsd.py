@@ -608,9 +608,10 @@ class Controls:
 
     # Speed limit changed alert
     if self.speed_limit_alert or self.speed_limit_confirmation:
+      current_speed_limit = frogpilot_plan.slcSpeedLimit
       desired_speed_limit = SpeedLimitController.desired_speed_limit
 
-      speed_limit_changed = abs(desired_speed_limit - self.previous_speed_limit) > 1
+      speed_limit_changed = abs(desired_speed_limit - self.previous_speed_limit) > 1 and abs(current_speed_limit - desired_speed_limit) > 1
 
       speed_limit_changed_lower = speed_limit_changed and self.previous_speed_limit > desired_speed_limit
       speed_limit_changed_higher = speed_limit_changed and self.previous_speed_limit < desired_speed_limit
