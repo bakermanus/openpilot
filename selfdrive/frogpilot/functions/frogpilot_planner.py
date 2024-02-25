@@ -52,7 +52,7 @@ class FrogPilotPlanner:
       min_accel = self.fpf.get_min_accel_eco(v_ego)
     elif self.deceleration_profile == 2:
       min_accel = self.fpf.get_min_accel_sport(v_ego)
-    elif self.mpc.mode == 'acc':
+    elif mpc.mode == 'acc':
       min_accel = A_CRUISE_MIN
     else:
       min_accel = ACCEL_MIN
