@@ -821,6 +821,9 @@ class Controls:
     if self.frogpilot_variables.conditional_experimental_mode:
       self.experimental_mode = frogpilot_plan.conditionalExperimental
 
+    # Only enable Sport+ above 5 m/s to prevent street race invitations
+    self.frogpilot_variables.sport_plus = self.sport_plus and CS.vEgo > 5
+
     # Gear Check
     self.driving_gear = CS.gearShifter not in (GearShifter.neutral, GearShifter.park, GearShifter.reverse, GearShifter.unknown)
 
@@ -1174,7 +1177,7 @@ class Controls:
     self.frogpilot_variables.long_pitch = self.params.get_bool("LongPitch")
 
     longitudinal_tune = self.params.get_bool("LongitudinalTune")
-    self.frogpilot_variables.sport_plus = longitudinal_tune and self.params.get_int("AccelerationProfile") == 3
+    self.sport_plus = longitudinal_tune and self.params.get_int("AccelerationProfile") == 3
 
     self.lane_detection = self.params.get_bool("LaneDetection") and self.params.get_bool("NudgelessLaneChange")
     self.lane_detection_width = self.params.get_int("LaneDetectionWidth") * (1 if self.is_metric else CV.FOOT_TO_METER) / 10 if self.lane_detection else 0
