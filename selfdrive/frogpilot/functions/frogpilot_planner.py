@@ -156,14 +156,14 @@ class FrogPilotPlanner:
     else:
       self.vtsc_target = v_cruise
 
-    targets = [self.mtsc_target, max(self.overridden_speed, self.slc_target), self.vtsc_target, v_cruise]
+    targets = [self.mtsc_target, max(self.overridden_speed, self.slc_target), self.vtsc_target]
     filtered_targets = [target for target in targets if target != 0]
 
     # Offset to adjust the max speed to match the cluster
     v_ego_cluster = max(carState.vEgoCluster, v_ego)
     v_ego_diff = v_ego_cluster - v_ego
 
-    return min(filtered_targets) - v_ego_diff
+    return (min(filtered_targets) if filtered_targets else v_cruise) - v_ego_diff
 
   def publish(self, sm, pm, mpc):
     frogpilot_plan_send = messaging.new_message('frogpilotPlan')
