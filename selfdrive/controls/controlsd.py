@@ -582,7 +582,7 @@ class Controls:
       green_light = not stopped_for_light and self.stopped_for_light_previously
       self.stopped_for_light_previously = stopped_for_light
 
-      self.previously_enabled |= self.enabled or self.FPCC.alwaysOnLateral
+      self.previously_enabled |= (self.enabled or self.FPCC.alwaysOnLateral) and CS.vEgo > 5
       self.previously_enabled &= self.driving_gear
 
       green_light &= self.previously_enabled
