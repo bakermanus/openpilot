@@ -37,6 +37,8 @@ from openpilot.system.version import get_short_branch
 
 import openpilot.selfdrive.sentry as sentry
 
+from openpilot.selfdrive.frogpilot.functions.frogpilot_functions import CRUISING_SPEED
+
 from openpilot.selfdrive.frogpilot.functions.speed_limit_controller import SpeedLimitController
 
 SOFT_DISABLE_TIME = 3  # seconds
@@ -582,7 +584,7 @@ class Controls:
       green_light = not stopped_for_light and self.stopped_for_light_previously
       self.stopped_for_light_previously = stopped_for_light
 
-      self.previously_enabled |= (self.enabled or self.FPCC.alwaysOnLateral) and CS.vEgo > 5
+      self.previously_enabled |= (self.enabled or self.FPCC.alwaysOnLateral) and CS.vEgo > CRUISING_SPEED
       self.previously_enabled &= self.driving_gear
 
       green_light &= self.previously_enabled
@@ -822,7 +824,7 @@ class Controls:
       self.experimental_mode = frogpilot_plan.conditionalExperimental
 
     # Only enable Sport+ above 5 m/s to prevent street race invitations
-    self.frogpilot_variables.sport_plus = self.sport_plus and CS.vEgo > 5
+    self.frogpilot_variables.sport_plus = self.sport_plus and CS.vEgo > CRUISING_SPEED
 
     # Gear Check
     self.driving_gear = CS.gearShifter not in (GearShifter.neutral, GearShifter.park, GearShifter.reverse, GearShifter.unknown)

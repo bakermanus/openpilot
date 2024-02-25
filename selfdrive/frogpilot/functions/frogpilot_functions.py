@@ -22,6 +22,8 @@ A_CRUISE_MAX_VALS_SPORT = [3.5, 3.5, 3.3, 2.8, 1.5, 1.0, .75, .6, .38, .2]
 
 THRESHOLD = 5  # Time threshold (0.25s)
 
+CRUISING_SPEED = 5  # Roughly the speed cars go when not touching the gas while in drive
+
 class MovingAverageCalculator:
   def __init__(self):
     self.data = []
