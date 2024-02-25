@@ -3,6 +3,7 @@ import numpy as np
 
 from openpilot.common.conversions import Conversions as CV
 from openpilot.common.numpy_fast import clip
+from openpilot.selfdrive.car.interfaces import ACCEL_MIN, ACCEL_MAX
 from openpilot.selfdrive.controls.lib.desire_helper import LANE_CHANGE_SPEED_MIN
 from openpilot.selfdrive.controls.lib.longitudinal_planner import A_CRUISE_MIN, get_max_accel
 
@@ -42,27 +43,31 @@ class FrogPilotPlanner:
   def update(self, carState, controlsState, modelData, mpc, sm, v_cruise, v_ego):
     enabled = controlsState.enabled
 
-    v_cruise_changed = (self.mtsc_target or self.vtsc_target) < v_cruise  # Use stock acceleration profiles to handle MTSC/VTSC more precisely
+    v_cruise_changed = (self.mtsc_target or self.vtsc_target) < v_cruise  # Use the stock deceleration profile to handle MTSC/VTSC more precisely
+
+    # Configure the deceleration profile
     if v_cruise_changed:
-      self.accel_limits = [A_CRUISE_MIN, get_max_accel(v_ego)]
+      min_accel = A_CRUISE_MIN
+    elif self.deceleration_profile == 1:
+      min_accel = self.fpf.get_min_accel_eco(v_ego)
+    elif self.deceleration_profile == 2:
+      min_accel = self.fpf.get_min_accel_sport(v_ego)
+    elif self.mpc.mode == 'acc':
+      min_accel = A_CRUISE_MIN
     else:
-      # Configure the deceleration profile
-      if self.deceleration_profile == 1:
-        min_accel = self.fpf.get_min_accel_eco(v_ego)
-      elif self.deceleration_profile == 2:
-        min_accel = self.fpf.get_min_accel_sport(v_ego)
-      else:
-        min_accel = A_CRUISE_MIN
+      min_accel = ACCEL_MIN
 
-      # Configure the acceleration profile
-      if self.acceleration_profile == 1:
-        max_accel = self.fpf.get_max_accel_eco(v_ego)
-      elif self.acceleration_profile in (2, 3):
-        max_accel = self.fpf.get_max_accel_sport(v_ego)
-      else:
-        max_accel = get_max_accel(v_ego)
+    # Configure the acceleration profile
+    if self.acceleration_profile == 1:
+      max_accel = self.fpf.get_max_accel_eco(v_ego)
+    elif self.acceleration_profile in (2, 3):
+      max_accel = self.fpf.get_max_accel_sport(v_ego)
+    elif mpc.mode == 'acc':
+      max_accel = get_max_accel(v_ego)
+    else:
+      max_accel = ACCEL_MAX
 
-      self.accel_limits = [min_accel, max_accel]
+    self.accel_limits = [min_accel, max_accel]
 
     # Conditional Experimental Mode
     if self.conditional_experimental_mode and self.CP.openpilotLongitudinalControl or self.green_light_alert and carState.standstill:
