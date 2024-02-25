@@ -831,6 +831,7 @@ class Controls:
     self.FPCC.alwaysOnLateral &= self.always_on_lateral
     self.FPCC.alwaysOnLateral &= CS.cruiseState.available
     self.FPCC.alwaysOnLateral &= self.driving_gear
+    self.FPCC.alwaysOnLateral &= not self.openpilot_crashed
 
     if self.FPCC.alwaysOnLateral:
       self.current_alert_types.append(ET.WARNING)
