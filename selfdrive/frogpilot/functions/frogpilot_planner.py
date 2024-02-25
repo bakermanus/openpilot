@@ -127,9 +127,6 @@ class FrogPilotPlanner:
           self.overridden_speed = v_cruise
       else:
         self.overridden_speed = 0
-
-      if self.slc_target == 0:
-        self.slc_target = v_cruise
     else:
       self.slc_target = v_cruise
 
@@ -154,7 +151,7 @@ class FrogPilotPlanner:
     else:
       self.vtsc_target = v_cruise
 
-    targets = [self.mtsc_target, max(self.overridden_speed, self.slc_target), self.vtsc_target]
+    targets = [self.mtsc_target, max(self.overridden_speed, self.slc_target), self.vtsc_target, v_cruise]
     filtered_targets = [target for target in targets if target != 0]
 
     # Offset to adjust the max speed to match the cluster
