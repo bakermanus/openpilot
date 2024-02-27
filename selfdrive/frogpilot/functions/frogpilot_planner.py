@@ -22,14 +22,17 @@ class FrogPilotPlanner:
     self.v_cruise = self.update_v_cruise(carState, controlsState, enabled, modelData, v_cruise, v_ego)
 
   def update_v_cruise(self, carState, controlsState, enabled, modelData, v_cruise, v_ego):
-    targets = []
-    filtered_targets = [target for target in targets if target != 0]
-
     # Offset to adjust the max speed to match the cluster
     v_ego_cluster = max(carState.vEgoCluster, v_ego)
     v_ego_diff = v_ego_cluster - v_ego
 
-    return (min(filtered_targets) if filtered_targets else v_cruise) - v_ego_diff
+    v_cruise_cluster = max(controlsState.vCruiseCluster, controlsState.vCruise) * CV.KPH_TO_MS
+    v_cruise_diff = v_cruise_cluster - v_cruise
+
+    targets = []
+    filtered_targets = [target for target in targets if target != 0]
+
+    return (min(filtered_targets) if filtered_targets else v_cruise)
 
   def publish(self, sm, pm, mpc):
     frogpilot_plan_send = messaging.new_message('frogpilotPlan')
