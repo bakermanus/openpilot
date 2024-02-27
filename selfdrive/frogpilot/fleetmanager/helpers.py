@@ -450,16 +450,16 @@ def get_all_toggle_values():
     "DisableMTSCSmoothing", "MTSCAggressiveness", "MTSCCurvatureCheck", "MTSCLimit", "NudgelessLaneChange", "LaneChangeTime", "LaneDetection",
     "LaneDetectionWidth", "OneLaneChange", "QOLControls", "DisableOnroadUploads", "HigherBitrate", "NavChill", "PauseLateralOnSignal",
     "ReverseCruise", "ReverseCruiseUI", "SetSpeedLimit", "SetSpeedOffset",  "SpeedLimitController", "Offset1", "Offset2", "Offset3", "Offset4",
-    "SLCConfirmation", "SLCFallback", "SLCPriority1", "SLCPriority2", "SLCPriority3", "SLCOverride", "TurnDesires", "VisionTurnControl",
-    "DisableVTSCSmoothing", "CurveSensitivity", "TurnAggressiveness", "EVTable", "GasRegenCmd", "LongPitch", "LowerVolt", "CrosstrekTorque",
-    "CydiaTune", "DragonPilotTune", "FrogsGoMooTune", "LockDoors", "SNGHack", "CustomTheme", "CustomColors", "CustomIcons", "CustomSignals",
-    "CustomSounds", "GoatScream", "AlertVolumeControl", "DisengageVolume", "EngageVolume", "PromptVolume", "PromptDistractedVolume", "RefuseVolume",
-    "WarningSoftVolume", "WarningImmediateVolume", "CameraView", "Compass", "CustomAlerts", "GreenLightAlert", "LeadDepartingAlert", "LoudBlindspotAlert",
-    "SpeedLimitChangedAlert", "CustomUI", "AccelerationPath", "AdjacentPath", "AdjacentPathMetrics", "BlindSpotPath", "FPSCounter", "LeadInfo", "UseSI",
-    "PedalsOnUI", "RoadNameUI", "UseVienna", "DriverCamera", "ModelUI", "DynamicPathWidth", "LaneLinesWidth", "PathEdgeWidth", "PathWidth",
-    "RoadEdgesWidth", "UnlimitedLength", "QOLVisuals", "DriveStats", "FullMap", "HideSpeed", "HideSpeedUI", "ShowSLCOffset", "WheelSpeed",
-    "RandomEvents", "ScreenBrightness", "WheelIcon", "RotatingWheel", "NumericalTemp", "Fahrenheit", "ShowCPU", "ShowGPU", "ShowIP", "ShowMemoryUsage",
-    "ShowStorageLeft", "ShowStorageUsed", "Sidebar"
+    "SLCConfirmation", "SLCConfirmationLower", "SLCConfirmationHigher", "SLCFallback", "SLCPriority1", "SLCPriority2", "SLCPriority3", "SLCOverride",
+    "TurnDesires", "VisionTurnControl", "DisableVTSCSmoothing", "CurveSensitivity", "TurnAggressiveness", "EVTable", "GasRegenCmd", "LongPitch",
+    "LowerVolt", "CrosstrekTorque", "CydiaTune", "DragonPilotTune", "FrogsGoMooTune", "LockDoors", "SNGHack", "CustomTheme", "CustomColors",
+    "CustomIcons", "CustomSignals", "CustomSounds", "GoatScream", "AlertVolumeControl", "DisengageVolume", "EngageVolume", "PromptVolume",
+    "PromptDistractedVolume", "RefuseVolume", "WarningSoftVolume", "WarningImmediateVolume", "CameraView", "Compass", "CustomAlerts", "GreenLightAlert",
+    "LeadDepartingAlert", "LoudBlindspotAlert", "SpeedLimitChangedAlert", "CustomUI", "AccelerationPath", "AdjacentPath", "AdjacentPathMetrics",
+    "BlindSpotPath", "FPSCounter", "LeadInfo", "UseSI", "PedalsOnUI", "RoadNameUI", "UseVienna", "DriverCamera", "ModelUI", "DynamicPathWidth",
+    "LaneLinesWidth", "PathEdgeWidth", "PathWidth", "RoadEdgesWidth", "UnlimitedLength", "QOLVisuals", "DriveStats", "FullMap", "HideSpeed",
+    "HideSpeedUI", "ShowSLCOffset", "WheelSpeed", "RandomEvents", "ScreenBrightness", "WheelIcon", "RotatingWheel", "NumericalTemp", "Fahrenheit",
+    "ShowCPU", "ShowGPU", "ShowIP", "ShowMemoryUsage", "ShowStorageLeft", "ShowStorageUsed", "Sidebar"
   ]
 
   toggle_values = {}

@@ -501,10 +501,11 @@ class CarStateBase(ABC):
     # FrogPilot variables
     self.fpf = FrogPilotFunctions()
 
+    self.distance_button = False
     self.distance_previously_pressed = False
     self.lkas_previously_pressed = False
 
-    self.distance_button = 0
+    self.distance_pressed_counter = 0
     self.personality_profile = self.fpf.current_personality
     self.previous_personality_profile = self.personality_profile
 
